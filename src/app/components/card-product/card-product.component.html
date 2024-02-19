@@ -1,0 +1,65 @@
+<div
+  class="tw-animate-fadeIn tw-relative tw-flex tw-h-[495px] tw-w-[335px] tw-flex-col tw-items-center tw-justify-center tw-rounded-xl tw-border tw-border-border-surface tw-bg-background-100 tw-p-2 tw-shadow-xl"
+>
+  <a [routerLink]="['/product', id]">
+    <p-tag
+      class="tw-absolute tw-left-8 tw-top-8 tw-flex tw-h-8 tw-items-center tw-justify-center tw-rounded-lg tw-px-3"
+      [value]="getSeverity(quantity).label"
+      [severity]="getSeverity(quantity).severity"
+    ></p-tag>
+
+    <img
+      [src]="image"
+      alt="product"
+      class="tw-absolute tw-left-[50%] tw-top-[50%] -tw-translate-x-[50%] -tw-translate-y-[50%] tw-scale-90 tw-object-cover tw-mix-blend-darken"
+    />
+    <div class="tw-absolute tw-left-[30px] tw-top-[400px]">
+      <span class="tw-text-xl tw-font-semibold tw-text-primary">{{
+        name
+      }}</span>
+    </div>
+    <div
+      class="tw-absolute tw-bottom-0 tw-left-0 tw-mt-3 tw-w-full tw-px-[20px] tw-pb-4 tw-pt-3"
+    >
+      <div
+        class="tw-flex tw-w-full tw-justify-between tw-border-t-[1px] tw-border-background-300 tw-pt-2"
+      >
+        <div class="tw-flex tw-items-center tw-gap-3">
+          <span class="tw-text-lg tw-font-bold tw-text-primary">{{
+            price | currency: 'USD'
+          }}</span>
+        </div>
+        <div class="tw-flex tw-items-center">
+          <p-rating
+            [(ngModel)]="rating"
+            [readonly]="true"
+            [cancel]="false"
+          ></p-rating>
+        </div>
+      </div>
+    </div>
+    <div
+      class="tw-text-simple tw-absolute tw-right-[30px] tw-top-9 tw-flex tw-items-center tw-gap-2 tw-font-semibold"
+    >
+      <span class="flex align-items-center gap-2">
+        <i class="pi pi-tag"></i>
+        <span class="font-semibold">{{ category }}</span>
+      </span>
+    </div>
+  </a>
+
+  <div
+    class="tw-text-simple tw-absolute tw-right-[30px] tw-top-16 tw-flex tw-items-center tw-gap-2 tw-font-semibold"
+  >
+    <i class="pi pi-heart-fill text-red-500" style="font-size: 1rem"></i>
+    <span>{{ likes }}</span>
+    <i class="pi pi-shopping-cart ml-1" style="font-size: 1rem"></i>
+    <span>{{ quantity }}</span>
+  </div>
+  <button
+    class="tw-bg-primary_light tw-absolute tw-right-[30px] tw-top-[385px] tw-flex tw-size-10 tw-cursor-pointer tw-items-center tw-justify-center tw-rounded-full hover:tw-bg-opacity-75"
+  >
+    <!-- <i class="pi pi-shopping-cart" style="font-size: 1rem; color: white"></i> -->
+  </button>
+</div>
+

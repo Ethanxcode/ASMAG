@@ -1,0 +1,58 @@
+<app-header />
+<app-carousel-header />
+<app-navbar-menu />
+
+<div
+  class="flex-wrap tw-mb-5 tw-flex tw-w-full tw-items-center tw-justify-between tw-gap-6"
+>
+  @for (item of filteredProducts; track item) {
+    @if (!loaded) {
+      <div
+        class="tw-relative tw-flex tw-h-[255px] tw-w-[335px] tw-flex-col tw-rounded-[30px] tw-px-4"
+      >
+        <p-skeleton styleClass="mb-2"></p-skeleton>
+        <p-skeleton width="10rem" styleClass="mb-2"></p-skeleton>
+        <p-skeleton width="5rem" styleClass="mb-2"></p-skeleton>
+        <p-skeleton height="2rem" styleClass="mb-2"></p-skeleton>
+        <p-skeleton width="10rem" height="4rem"></p-skeleton>
+      </div>
+    } @else if (loaded) {
+      <app-card-product
+        [id]="item.id"
+        [code]="item.code"
+        [name]="item.name"
+        [description]="item.description"
+        [price]="item.price"
+        [quantity]="item.quantity"
+        [inventoryStatus]="item.inventoryStatus"
+        [category]="item.category.toUpperCase()"
+        [rating]="item.rating"
+        [likes]="item.likes"
+        [image]="item.image[0]"
+      ></app-card-product>
+    }
+  }
+</div>
+
+@if (loaded && filteredProducts.length === 0) {
+  <div
+    class="card flex r tw-mb-10 tw-flex tw-w-full tw-flex-wrap tw-justify-center"
+  >
+    <span class="line-height-3 text-truncate tw-text-2xl tw-font-bold">
+      NO PRODUCTS FOUND, TRY AGAIN!
+    </span>
+  </div>
+} @else {
+  <div class="card flex justify-content-center">
+    <p-paginator
+      (onPageChange)="onPageChange($event)"
+      [first]="currentPage"
+      [rows]="itemsPerPage"
+      [totalRecords]="10"
+      [rowsPerPageOptions]="[2, 4, 6]"
+    ></p-paginator>
+  </div>
+}
+
+<app-footer />
+

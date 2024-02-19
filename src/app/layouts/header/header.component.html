@@ -1,0 +1,76 @@
+<header class="tw-mb-24">
+  <div class="layout-topbar">
+    <a class="layout-topbar-logo" [routerLink]="['/']">
+      <img src="assets/images/logo.png" alt="logo" />
+      <!-- <span>FPT Polytechnic</span> -->
+    </a>
+
+    <!-- <button #menubutton class="p-link layout-menu-button layout-topbar-button">
+      <i class="pi pi-bars"></i>
+    </button> -->
+
+    <button
+      #topbarmenubutton
+      class="p-link layout-topbar-menu-button layout-topbar-button"
+    >
+      <i class="pi pi-ellipsis-v"></i>
+    </button>
+
+    <div
+      #topbarmenu
+      class="layout-topbar-menu tw-items-center tw-justify-center"
+    >
+      <p-button
+        icon="pi pi-shopping-cart"
+        [rounded]="true"
+        [text]="true"
+        severity="secondary "
+        badge="{{
+          (cartTotalQuantity$ | async) !== 0
+            ? (cartTotalQuantity$ | async)
+            : null
+        }}"
+        badgeClass="p-badge-danger"
+        size="large"
+        routerLink="/cart"
+      >
+      </p-button>
+      <p-menu #menu [model]="menus" [popup]="true"></p-menu>
+      @if (user) {
+        <p-chip
+          class="tw-ml-[4px] tw-flex tw-cursor-pointer tw-items-center tw-justify-items-center"
+          (click)="menu.toggle($event)"
+        >
+          @if (user?.photo?.image) {
+            <img
+              src="{{ user.photo.image }}"
+              class="-tw-ml-[0.75rem] tw-mr-[0.5rem] tw-h-[2.25rem] tw-w-[2.25rem] tw-object-cover"
+              alt="{{ user.username }}"
+            />
+            <span class="ml-2 font-medium tw-capitalize">{{
+              user.username
+            }}</span>
+          } @else {
+            <span
+              class="bg-primary border-circle w-2rem h-2rem flex align-items-center justify-content-center tw-uppercase"
+              >{{ user.username[0] }}</span
+            >
+            <span class="ml-2 font-medium tw-capitalize">{{
+              user.username
+            }}</span>
+          }
+        </p-chip>
+      } @else {
+        <p-button
+          label="Sign in"
+          [rounded]="true"
+          [text]="true"
+          severity="secondary "
+          routerLink="/signin"
+        >
+        </p-button>
+      }
+    </div>
+  </div>
+</header>
+

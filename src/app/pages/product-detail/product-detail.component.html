@@ -1,0 +1,135 @@
+<app-header />
+
+<div class="flex justify-content-start mb-4">
+  <p-breadcrumb
+    styleClass="border-0 bg-transparent"
+    class="max-w-full"
+    [model]="breadcrumb"
+    [home]="home"
+  ></p-breadcrumb>
+</div>
+
+<div class="grid grid-nogutter border-round shadow-2 surface-section text-800">
+  @if (!loaded) {
+    <div class="col-12 md:col-6 p-6">
+      <p-skeleton height="40px" styleClass="mb-2"></p-skeleton>
+      <p-skeleton width="40px" styleClass="mb-2"></p-skeleton>
+      <p-skeleton width="240px" height="80px" styleClass="mb-2"></p-skeleton>
+      <p-skeleton width="100%" height="21rem"></p-skeleton>
+    </div>
+    <div class="col-12 md:col-6 overflow-hidden p-6 flex justify-content-end">
+      <p-skeleton size="32rem"></p-skeleton>
+    </div>
+  } @else if (loaded) {
+    <div
+      class="col-12 md:col-6 p-6 text-center md:text-left flex align-items-center"
+    >
+      <section>
+        <div class="mb-3">
+          <span class="block text-5xl font-bold"
+            >{{ product.name.toUpperCase() }}
+          </span>
+
+          <p-tag
+            class="tw-flex tw-h-8 tw-items-center tw-rounded-lg"
+            [value]="getSeverity(product.quantity).label"
+            [severity]="getSeverity(product.quantity).severity"
+          ></p-tag>
+        </div>
+        <p class="mt-0 mb-4 tw-font-700 line-height-3 text-base text-truncate">
+          {{ product.description }}
+        </p>
+        <div>
+          <div class="text-2xl font-bold mb-3 text-truncate">
+            Retail Drice: {{ product.price | currency: 'USD' }}
+          </div>
+
+          <div class="text-base font-medium text-truncate mb-3 opacity-60">
+            Brand: {{ product.brand.name }}
+          </div>
+          <div class="text-base font-medium text-truncate mb-3 opacity-60">
+            Release Date: {{ product.releaseDate | date: 'MMM. dd, yyyy' }}
+          </div>
+          <div class="text-base font-medium text-truncate mb-3 opacity-60">
+            Colorway: {{ product.colorway }}
+          </div>
+        </div>
+
+        <div class="mb-4 flex gap-4">
+          <!-- <p-dropdown
+            [options]="colors"
+            [(ngModel)]="onSelectedColor"
+            placeholder="Select a color"
+          ></p-dropdown> -->
+
+          <p-dropdown
+            [options]="sizes"
+            [(ngModel)]="selectedSize"
+            placeholder="Select a Size"
+            [group]="true"
+            (onChange)="onSelectedSize($event.value)"
+          >
+            <ng-template let-group pTemplate="group">
+              <div class="flex align-items-center">
+                <span class="pi pi-hashtag tw-mr-3"></span>
+                <span>{{ group.label }}</span>
+              </div>
+            </ng-template>
+          </p-dropdown>
+        </div>
+
+        <div>
+          <button
+            pButton
+            pRipple
+            label="Add to Cart"
+            (click)="handleAddToCart(product)"
+            type="button"
+            class="mr-3 p-button-secondary shadow-2"
+          ></button>
+
+          <button
+            pButton
+            pRipple
+            label="Add to Wishlist"
+            type="button"
+            class="p-button-outlined p-button-secondary shadow-2"
+          ></button>
+        </div>
+      </section>
+    </div>
+    <div class="col-12 md:col-6 p-4">
+      <!-- <img
+        src="{{ product.image[0] }}"
+        alt="Image"
+        class="md:ml-auto block md:h-full"
+        style="clip-path: polygon(8% 0, 100% 0%, 100% 100%, 0 100%)"
+      /> -->
+
+      <p-galleria
+        [value]="images"
+        [showIndicators]="true"
+        [showThumbnails]="false"
+        [autoPlay]="true"
+        [changeItemOnIndicatorHover]="true"
+        [responsiveOptions]="responsiveOptions"
+        [containerStyle]="{ 'max-width': '680px' }"
+      >
+        <ng-template pTemplate="item" let-item>
+          <img
+            [src]="item.image"
+            class="md:ml-auto"
+            style="
+              width: 100%;
+              display: block;
+              height: 520px;
+              clip-path: polygon(8% 0, 100% 0%, 100% 100%, 0 100%);
+            "
+            alt="{{ product.name }}"
+          />
+        </ng-template>
+      </p-galleria>
+    </div>
+  }
+</div>
+

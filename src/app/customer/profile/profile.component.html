@@ -1,0 +1,169 @@
+<app-header />
+
+<div class="flex justify-content-start mb-4">
+  <p-breadcrumb
+    styleClass="border-0 bg-transparent"
+    class="max-w-full"
+    [model]="breadcrumb"
+    [home]="home"
+  ></p-breadcrumb>
+</div>
+
+<div class="tw-md:tw-grid-cols-3 tw-grid tw-px-4 tw-pt-6"></div>
+
+<div class="grid grid-nogutter border-round shadow-2 surface-section text-800">
+  @if (!loaded) {
+    <div class="col-12 md:col-6 overflow-hidden p-6 flex">
+      <p-skeleton size="32rem"></p-skeleton>
+    </div>
+    <div class="col-12 md:col-6 p-6">
+      <p-skeleton height="40px" styleClass="mb-2"></p-skeleton>
+      <p-skeleton width="40px" styleClass="mb-2"></p-skeleton>
+      <p-skeleton width="240px" height="80px" styleClass="mb-2"></p-skeleton>
+      <p-skeleton width="100%" height="21rem"></p-skeleton>
+    </div>
+  } @else if (loaded) {
+    <div class="tw-flex tw-w-full tw-items-center tw-justify-center">
+      <p-card class="xxl:tw-p-8 shadow-lg tw-mb-4 tw-rounded-lg md:tw-p-6">
+        <div class="tw-flex tw-h-full tw-flex-row tw-items-center">
+          <form enctype="multipart/form-data" #imageForm>
+            <label for="avatarUpload" class="cursor-pointer">
+              <img
+                id="avatarPreview"
+                class="tw-xxl:mb-0 tw-md:mb-4 tw-border-white tw-size-[28rem] tw-max-w-full tw-rounded-lg tw-object-cover tw-shadow-lg"
+                src="{{ user.photo.image }}"
+                alt="Avatar"
+              />
+            </label>
+            <input
+              id="avatarUpload"
+              type="file"
+              class="tw-hidden"
+              name="photo"
+              accept="image/png,image/jpeg,image/heic,image/gif,image/webp"
+              (change)="handleImageChange($event)"
+            />
+          </form>
+
+          <!-- <ngx-dropzone (change)="onSelect($event)">
+            <ngx-dropzone-label>Drop it, baby!</ngx-dropzone-label>
+            <ngx-dropzone-image-preview
+              ngProjectAs="ngx-dropzone-preview"
+              *ngFor="let f of files"
+              [file]="f"
+              [removable]="true"
+              (removed)="onRemove(f)"
+            >
+              <ngx-dropzone-label
+                >{{ f.name }} ({{ f.type }})</ngx-dropzone-label
+              >
+            </ngx-dropzone-image-preview>
+          </ngx-dropzone> -->
+        </div>
+      </p-card>
+
+      <div class="xxl:tw-p-8 shadow-lg tw-mb-4 tw-rounded-lg md:tw-p-6">
+        <div class="mb-3">
+          <span class="block text-4xl font-bold">General information</span>
+        </div>
+        <div class="tw-ml-4">
+          <div class="tw-mb-4 tw-text-lg tw-font-normal tw-opacity-80">
+            Software Enginee
+          </div>
+        </div>
+
+        <form
+          [formGroup]="form"
+          (ngSubmit)="onUpdateSubmit()"
+          #loginForm="ngForm"
+          class="tw-mb-4 tw-flex tw-h-[28rem] tw-w-[600px] tw-flex-col tw-gap-6"
+        >
+          <div class="tw-w-full">
+            <label
+              for="username"
+              class="tw-text-gray-900 tw-dark:text-white tw-mb-2 tw-block tw-text-lg tw-font-medium"
+              >Username</label
+            >
+            <input
+              type="text"
+              id="username"
+              formControlName="username"
+              value="{{ user.username }}"
+              class="tw-bg-gray-50 tw- tw-text-gray-900 tw-focus:ring-blue-500 tw-focus:border-blue-500 tw-w-fullt tw-dark:bg-gray-700 tw-dark:border-gray-600 tw-dark:placeholder-gray-400 tw-dark:text-white tw-dark:focus:ring-blue-500 tw-dark:focus:border-blue-500 tw-block tw-w-full tw-rounded-lg tw-border tw-border-background-400 tw-p-2.5 tw-text-lg"
+              placeholder="Username"
+            />
+          </div>
+          <div
+            class="tw-flex tw-w-full tw-items-center tw-justify-center tw-gap-4"
+          >
+            <div class="tw-w-1/2">
+              <label
+                for="password"
+                class="tw-text-gray-900 tw-dark:text-white tw-mb-2 tw-block tw-text-lg tw-font-medium"
+                >Password</label
+              >
+              <input
+                type="password"
+                id="password"
+                formControlName="password"
+                class="tw-bg-gray-50 tw- tw-text-gray-900 tw-focus:ring-blue-500 tw-focus:border-blue-500 tw-w-fullt tw-dark:bg-gray-700 tw-dark:border-gray-600 tw-dark:placeholder-gray-400 tw-dark:text-white tw-dark:focus:ring-blue-500 tw-dark:focus:border-blue-500 tw-block tw-w-full tw-rounded-lg tw-border tw-border-background-400 tw-p-2.5 tw-text-lg"
+                placeholder="••••••••"
+              />
+            </div>
+            <div class="tw-w-1/2">
+              <label
+                for="passwordConfirmation"
+                class="tw-text-gray-900 tw-dark:text-white tw-mb-2 tw-block tw-text-lg tw-font-medium"
+                >Re-enter password</label
+              >
+              <input
+                type="password"
+                id="passwordConfirmation"
+                formControlName="passwordConfirmation"
+                class="tw-bg-gray-50 tw- tw-text-gray-900 tw-focus:ring-blue-500 tw-focus:border-blue-500 tw-w-fullt tw-dark:bg-gray-700 tw-dark:border-gray-600 tw-dark:placeholder-gray-400 tw-dark:text-white tw-dark:focus:ring-blue-500 tw-dark:focus:border-blue-500 tw-block tw-w-full tw-rounded-lg tw-border tw-border-background-400 tw-p-2.5 tw-text-lg"
+                placeholder="••••••••"
+              />
+            </div>
+          </div>
+
+          <div
+            class="font-semibold text-sm text-red-600 hover:text-red-500"
+            *ngIf="
+              form.controls['password'].invalid &&
+              form.controls['password'].touched
+            "
+          >
+            <div *ngIf="form.controls['password'].errors?.['minlength']">
+              * Mật khẩu phải gồm ít nhất 4 ký tự
+            </div>
+          </div>
+
+          <div
+            class="font-semibold text-sm text-red-600 hover:text-red-500"
+            *ngIf="form.controls['passwordConfirmation'].touched"
+          >
+            <div *ngIf="form.errors?.['passwordsNotMatch']">
+              * Mật khẩu và xác nhận mật khẩu không khớp!
+            </div>
+          </div>
+
+          <div class="tw-items-end">
+            <button
+              pButton
+              pRipple
+              type="submit"
+              [disabled]="
+                form.invalid &&
+                (form.controls['password'].touched ||
+                  form.controls['passwordConfirmation'].touched)
+              "
+              label="Save all changes"
+              class="p-button-secondary shadow-2 tw-w-full"
+            ></button>
+          </div>
+        </form>
+      </div>
+    </div>
+  }
+</div>
+

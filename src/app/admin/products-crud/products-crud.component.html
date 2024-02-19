@@ -1,0 +1,200 @@
+<app-header />
+
+<div class="flex justify-content-start mb-4">
+  <p-breadcrumb
+    styleClass="border-0 bg-transparent"
+    class="max-w-full"
+    [model]="breadcrumb"
+    [home]="home"
+  ></p-breadcrumb>
+</div>
+
+<div class="tw-md:tw-grid-cols-3 tw-grid tw-px-4 tw-pt-6"></div>
+
+<div class="grid grid-nogutter border-round shadow-2 surface-section text-800">
+  @if (!loaded) {
+    <div class="col-12 md:col-6 overflow-hidden p-6 flex">
+      <p-skeleton size="32rem"></p-skeleton>
+    </div>
+    <div class="col-12 md:col-6 p-6">
+      <p-skeleton height="40px" styleClass="mb-2"></p-skeleton>
+      <p-skeleton width="40px" styleClass="mb-2"></p-skeleton>
+      <p-skeleton width="240px" height="80px" styleClass="mb-2"></p-skeleton>
+      <p-skeleton width="100%" height="21rem"></p-skeleton>
+    </div>
+  } @else if (loaded) {
+    <div
+      class="tw-flex tw-h-[820px] tw-w-full tw-items-center tw-justify-center"
+    >
+      <p-card
+        class="xxl:tw-p-8 shadow-lg tw-mb-4 tw-w-full tw-rounded-lg md:tw-p-6"
+      >
+        <ngx-dropzone [multiple]="true" (change)="onSelect($event)">
+          <ngx-dropzone-label>Drop it, baby!</ngx-dropzone-label>
+          <ngx-dropzone-image-preview
+            *ngFor="let f of files"
+            [file]="f"
+            [removable]="true"
+            (removed)="onRemove(f)"
+          >
+            <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+          </ngx-dropzone-image-preview>
+        </ngx-dropzone>
+      </p-card>
+
+      <div class="xxl:tw-p-8 shadow-lg tw-mb-4 tw-rounded-lg md:tw-p-6">
+        <div class="mb-3">
+          <span class="block text-4xl font-bold">New Product</span>
+        </div>
+
+        <form
+          enctype="multipart/form-data"
+          [formGroup]="form"
+          (ngSubmit)="onUpdateSubmit()"
+          #loginForm="ngForm"
+          class="tw-mb-4 tw-flex tw-h-[28rem] tw-w-[600px] tw-flex-col tw-gap-6"
+        >
+          <div class="tw-w-full">
+            <label
+              for="productName"
+              class="tw-text-gray-900 tw-dark:text-white tw-mb-2 tw-block tw-text-lg tw-font-medium"
+              >Product Name</label
+            >
+            <input
+              type="text"
+              id="productName"
+              formControlName="productName"
+              class="tw-bg-gray-50 tw- tw-text-gray-900 tw-focus:ring-blue-500 tw-focus:border-blue-500 tw-w-fullt tw-dark:bg-gray-700 tw-dark:border-gray-600 tw-dark:placeholder-gray-400 tw-dark:text-white tw-dark:focus:ring-blue-500 tw-dark:focus:border-blue-500 tw-block tw-w-full tw-rounded-lg tw-border tw-border-background-400 tw-p-2.5 tw-text-lg"
+              placeholder="Product Name"
+            />
+          </div>
+          <div class="tw-w-full">
+            <label
+              for="productDescription"
+              class="tw-text-gray-900 tw-dark:text-white tw-mb-2 tw-block tw-text-lg tw-font-medium"
+            >
+              Description</label
+            >
+            <input
+              type="text"
+              id="productDescription"
+              formControlName="productDescription"
+              class="tw-bg-gray-50 tw- tw-text-gray-900 tw-focus:ring-blue-500 tw-focus:border-blue-500 tw-w-fullt tw-dark:bg-gray-700 tw-dark:border-gray-600 tw-dark:placeholder-gray-400 tw-dark:text-white tw-dark:focus:ring-blue-500 tw-dark:focus:border-blue-500 tw-block tw-w-full tw-rounded-lg tw-border tw-border-background-400 tw-p-2.5 tw-text-lg"
+              placeholder="Description"
+            />
+          </div>
+          <div
+            class="tw-flex tw-w-full tw-items-center tw-justify-center tw-gap-4"
+          >
+            <div class="tw-w-1/2">
+              <label
+                for="productCode"
+                class="tw-text-gray-900 tw-dark:text-white tw-mb-2 tw-block tw-text-lg tw-font-medium"
+                >Product Code</label
+              >
+              <input
+                type="text"
+                id="productCode"
+                formControlName="productCode"
+                class="tw-bg-gray-50 tw- tw-text-gray-900 tw-focus:ring-blue-500 tw-focus:border-blue-500 tw-w-fullt tw-dark:bg-gray-700 tw-dark:border-gray-600 tw-dark:placeholder-gray-400 tw-dark:text-white tw-dark:focus:ring-blue-500 tw-dark:focus:border-blue-500 tw-block tw-w-full tw-rounded-lg tw-border tw-border-background-400 tw-p-2.5 tw-text-lg"
+                placeholder="Code"
+              />
+            </div>
+            <div class="tw-w-1/2">
+              <label
+                for="productQuantity"
+                class="tw-text-gray-900 tw-dark:text-white tw-mb-2 tw-block tw-text-lg tw-font-medium"
+                >Product Quantity</label
+              >
+              <input
+                type="number"
+                id="productQuantity"
+                formControlName="productQuantity"
+                class="tw-bg-gray-50 tw- tw-text-gray-900 tw-focus:ring-blue-500 tw-focus:border-blue-500 tw-w-fullt tw-dark:bg-gray-700 tw-dark:border-gray-600 tw-dark:placeholder-gray-400 tw-dark:text-white tw-dark:focus:ring-blue-500 tw-dark:focus:border-blue-500 tw-block tw-w-full tw-rounded-lg tw-border tw-border-background-400 tw-p-2.5 tw-text-lg"
+                placeholder="Quantity"
+              />
+            </div>
+          </div>
+
+          <div
+            class="tw-flex tw-w-full tw-items-center tw-justify-center tw-gap-4"
+          >
+            <div class="tw-w-1/2">
+              <label
+                for="productColorway"
+                class="tw-text-gray-900 tw-dark:text-white tw-mb-2 tw-block tw-text-lg tw-font-medium"
+                >Colorway</label
+              >
+              <input
+                type="text"
+                id="productColorway"
+                formControlName="productColorway"
+                class="tw-bg-gray-50 tw- tw-text-gray-900 tw-focus:ring-blue-500 tw-focus:border-blue-500 tw-w-fullt tw-dark:bg-gray-700 tw-dark:border-gray-600 tw-dark:placeholder-gray-400 tw-dark:text-white tw-dark:focus:ring-blue-500 tw-dark:focus:border-blue-500 tw-block tw-w-full tw-rounded-lg tw-border tw-border-background-400 tw-p-2.5 tw-text-lg"
+                placeholder="Colorway"
+              />
+            </div>
+            <div class="tw-w-1/2">
+              <label
+                for="productBrand"
+                class="tw-text-gray-900 tw-dark:text-white tw-mb-2 tw-block tw-text-lg tw-font-medium"
+                >Product Brand</label
+              >
+              <input
+                type="tet"
+                id="productBrand"
+                formControlName="productBrand"
+                class="tw-bg-gray-50 tw- tw-text-gray-900 tw-focus:ring-blue-500 tw-focus:border-blue-500 tw-w-fullt tw-dark:bg-gray-700 tw-dark:border-gray-600 tw-dark:placeholder-gray-400 tw-dark:text-white tw-dark:focus:ring-blue-500 tw-dark:focus:border-blue-500 tw-block tw-w-full tw-rounded-lg tw-border tw-border-background-400 tw-p-2.5 tw-text-lg"
+                placeholder="Brand"
+              />
+            </div>
+          </div>
+
+          <div
+            class="tw-flex tw-w-full tw-items-center tw-justify-center tw-gap-4"
+          >
+            <div class="tw-w-1/2">
+              <label
+                for="productCategory"
+                class="tw-text-gray-900 tw-dark:text-white tw-mb-2 tw-block tw-text-lg tw-font-medium"
+                >Product Category</label
+              >
+
+              <p-dropdown
+                [options]="Category"
+                [(ngModel)]="selectedCategory"
+                optionLabel="label"
+                placeholder="Select a Category"
+              ></p-dropdown>
+            </div>
+            <div class="tw-w-1/2">
+              <label
+                for="productPrice"
+                class="tw-text-gray-900 tw-dark:text-white tw-mb-2 tw-block tw-text-lg tw-font-medium"
+                >Product Price</label
+              >
+              <input
+                type="number"
+                id="productPrice"
+                formControlName="productPrice"
+                class="tw-bg-gray-50 tw- tw-text-gray-900 tw-focus:ring-blue-500 tw-focus:border-blue-500 tw-w-fullt tw-dark:bg-gray-700 tw-dark:border-gray-600 tw-dark:placeholder-gray-400 tw-dark:text-white tw-dark:focus:ring-blue-500 tw-dark:focus:border-blue-500 tw-block tw-w-full tw-rounded-lg tw-border tw-border-background-400 tw-p-2.5 tw-text-lg"
+                placeholder="Price"
+              />
+            </div>
+          </div>
+
+          <div class="tw-items-end">
+            <button
+              pButton
+              pRipple
+              [disabled]="form.invalid"
+              type="submit"
+              label="Submit"
+              class="p-button-secondary shadow-2 tw-w-full"
+            ></button>
+          </div>
+        </form>
+      </div>
+    </div>
+  }
+</div>
+

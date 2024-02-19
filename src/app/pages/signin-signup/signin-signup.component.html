@@ -1,0 +1,317 @@
+<div class="tw-py-28">
+  <section class="grid border-round shadow-2 surface-section text-800">
+    <div class="col-12 md:col-6 p-4">
+      <p-galleria
+        [value]="images"
+        [responsiveOptions]="responsiveOptions"
+        [autoPlay]="true"
+        [showThumbnails]="false"
+        [transitionInterval]="3000"
+        [containerStyle]="{ width: '100%' }"
+        containerClass="md:h-[420px] xxl: h-[720px]"
+      >
+        <ng-template pTemplate="item" let-item>
+          <img
+            [src]="item?.image"
+            class="md:ml-auto block md:h-full"
+            style="clip-path: polygon(0 0, 92% 0, 100% 100%, 0 100%)"
+            [alt]="item?.alt"
+          />
+        </ng-template>
+      </p-galleria>
+    </div>
+
+    <div
+      class="col-12 md:col-6 p-6 text-center md:text-left flex align-items-center"
+    >
+      <div
+        class="tw-lg:py-0 tw-mx-auto tw-flex tw-h-full tw-flex-col tw-items-center tw-justify-center tw-px-6 tw-py-8"
+      >
+        <div
+          class="tw-bg-white tw-dark:border tw-md:mt-0 tw-sm:max-w-md tw-xl:p-0 tw-dark:bg-gray-800 tw-dark:border-gray-700 tw-flex tw-w-full tw-flex-col tw-items-center tw-justify-center tw-rounded-lg tw-shadow"
+        >
+          <a
+            [routerLink]="['/']"
+            class="mb-6 font-semibold text-gray-900 dark:text-white tw-flex tw-items-center tw-justify-center"
+          >
+            <img
+              src="assets/images/logo.png"
+              class="h-4 mr-2 tw-w-[160px]"
+              alt="logo"
+            />
+          </a>
+          @if (currentRoute === '/signin') {
+            <div
+              class="tw-sm: tw-md:space-y-6 tw-sm:p-8 tw-w-[380px] tw-space-y-4 tw-p-6"
+            >
+              <h1
+                class="tw-text-gray-900 tw-md:text-2xl tw-dark:text-white tw-text-xl tw-font-bold tw-leading-tight tw-tracking-tight"
+              >
+                Sign in to your account
+              </h1>
+              <form
+                class="tw-md:space-y-6 tw-space-y-4"
+                [formGroup]="form"
+                (ngSubmit)="onLoginSubmit()"
+                #loginForm="ngForm"
+              >
+                <div>
+                  <label
+                    for="email"
+                    class="tw-text-gray-900 tw-dark:text-white tw-mb-2 tw-block tw-text-sm tw-font-medium"
+                    >Your email</label
+                  >
+                  <input
+                    type="email"
+                    name="email"
+                    formControlName="email"
+                    id="email"
+                    id="floating_productName"
+                    class="tw-bg-gray-50 tw-border-red-500 tw-text-gray-900 tw-sm:text-sm tw-focus:ring-primary-600 tw-focus:border-primary-600 tw-dark:bg-gray-700 tw-dark:border-gray-600 tw-dark:placeholder-gray-400 tw-dark:text-white tw-dark:focus:ring-blue-500 tw-dark:focus:border-blue-500 tw-block tw-w-full tw-rounded-lg tw-border tw-p-2.5"
+                    placeholder="name@company.com"
+                    required=""
+                  />
+                </div>
+                <div
+                  class="font-semibold text-sm text-red-600 hover:text-red-500"
+                  *ngIf="
+                    form.controls['email'].invalid &&
+                    form.controls['email'].touched
+                  "
+                >
+                  <div *ngIf="form.controls['email'].errors?.['required']">
+                    Email không được để trống!
+                  </div>
+                  <div *ngIf="form.controls['email'].errors?.['email']">
+                    Email không hợp lệ!
+                  </div>
+                </div>
+                <div>
+                  <label
+                    for="password"
+                    class="tw-text-gray-900 tw-dark:text-white tw-mb-2 tw-block tw-text-sm tw-font-medium"
+                    >Password</label
+                  >
+                  <input
+                    type="password"
+                    name="password"
+                    formControlName="password"
+                    id="password"
+                    placeholder="••••••••"
+                    class="tw-bg-gray-50 tw-border-gray-300 tw-text-gray-900 tw-sm:text-sm tw-focus:ring-primary-600 tw-focus:border-primary-600 tw-dark:bg-gray-700 tw-dark:border-gray-600 tw-dark:placeholder-gray-400 tw-dark:text-white tw-dark:focus:ring-blue-500 tw-dark:focus:border-blue-500 tw-block tw-w-full tw-rounded-lg tw-border tw-p-2.5"
+                    required=""
+                  />
+                </div>
+                <div
+                  class="font-semibold text-sm text-red-600 hover:text-red-500"
+                  *ngIf="
+                    form.controls['password'].invalid &&
+                    form.controls['password'].touched
+                  "
+                >
+                  <div *ngIf="form.controls['password'].errors?.['required']">
+                    Mật khẩu không được để trống!
+                  </div>
+                  <div *ngIf="form.controls['password'].errors?.['minlength']">
+                    Mật khẩu phải gồm ít nhất 4 ký tự
+                  </div>
+                </div>
+                <div class="tw-flex tw-items-center tw-justify-between">
+                  <div class="tw-flex tw-items-start">
+                    <div class="tw-flex tw-h-5 tw-items-center">
+                      <input
+                        id="remember"
+                        aria-describedby="remember"
+                        type="checkbox"
+                        class="tw-border-gray-300 tw-bg-gray-50 tw-focus:ring-3 tw-focus:ring-primary-300 tw-dark:bg-gray-700 tw-dark:border-gray-600 tw-dark:focus:ring-primary-600 tw-dark:ring-offset-gray-800 tw-h-4 tw-w-4 tw-rounded tw-border"
+                        required=""
+                      />
+                    </div>
+                    <div class="tw-ml-3 tw-text-sm">
+                      <label
+                        for="remember"
+                        class="tw-text-gray-500 tw-dark:text-gray-300"
+                        >Remember me</label
+                      >
+                    </div>
+                  </div>
+                  <a
+                    href="#"
+                    class="tw-text-primary-600 tw-hover:underline tw-dark:text-primary-500 tw-text-sm tw-font-medium"
+                    >Forgot password?</a
+                  >
+                </div>
+                <button
+                  pButton
+                  pRipple
+                  [disabled]="
+                    form.invalid &&
+                    (form.controls['password'].touched ||
+                      form.controls['email'].touched)
+                  "
+                  type="submit"
+                  label="Sign in"
+                  class="p-button-secondary dshadow-2 tw-w-full"
+                ></button>
+                <p
+                  class="tw-text-gray-500 tw-dark:text-gray-400 tw-text-sm tw-font-light"
+                >
+                  Don’t have an account yet?
+                  <a
+                    [routerLink]="['/signup']"
+                    class="tw-text-primary-600 tw-hover:underline tw-dark:text-primary-500 tw-font-medium"
+                    >Sign up</a
+                  >
+                </p>
+              </form>
+            </div>
+          } @else {
+            <div
+              class="tw-sm: tw-md:space-y-6 tw-sm:p-8 tw-w-[380px] tw-space-y-4 tw-p-6"
+            >
+              <h1
+                class="tw-text-gray-900 tw-md:text-2xl tw-dark:text-white tw-text-xl tw-font-bold tw-leading-tight tw-tracking-tight"
+              >
+                Sign up for an account
+              </h1>
+              <form
+                class="tw-md:space-y-6 tw-space-y-4"
+                [formGroup]="form"
+                (ngSubmit)="onRegisterSubmit()"
+                #loginForm="ngForm"
+              >
+                <div>
+                  <label
+                    for="email"
+                    class="tw-text-gray-900 tw-dark:text-white tw-mb-2 tw-block tw-text-sm tw-font-medium"
+                    >Your email</label
+                  >
+                  <input
+                    type="email"
+                    name="email"
+                    formControlName="email"
+                    id="email"
+                    id="floating_productName"
+                    class="tw-bg-gray-50 tw-border-red-500 tw-text-gray-900 tw-sm:text-sm tw-focus:ring-primary-600 tw-focus:border-primary-600 tw-dark:bg-gray-700 tw-dark:border-gray-600 tw-dark:placeholder-gray-400 tw-dark:text-white tw-dark:focus:ring-blue-500 tw-dark:focus:border-blue-500 tw-block tw-w-full tw-rounded-lg tw-border tw-p-2.5"
+                    placeholder="name@company.com"
+                    required=""
+                  />
+                </div>
+                <div
+                  class="font-semibold text-sm text-red-600 hover:text-red-500"
+                  *ngIf="
+                    form.controls['email'].invalid &&
+                    form.controls['email'].touched
+                  "
+                >
+                  <div *ngIf="form.controls['email'].errors?.['required']">
+                    Email không được để trống!
+                  </div>
+                  <div *ngIf="form.controls['email'].errors?.['email']">
+                    Email không hợp lệ!
+                  </div>
+                </div>
+                <div>
+                  <label
+                    for="password"
+                    class="tw-text-gray-900 tw-dark:text-white tw-mb-2 tw-block tw-text-sm tw-font-medium"
+                    >Password</label
+                  >
+                  <input
+                    type="password"
+                    name="password"
+                    formControlName="password"
+                    id="password"
+                    placeholder="••••••••"
+                    class="tw-bg-gray-50 tw-border-gray-300 tw-text-gray-900 tw-sm:text-sm tw-focus:ring-primary-600 tw-focus:border-primary-600 tw-dark:bg-gray-700 tw-dark:border-gray-600 tw-dark:placeholder-gray-400 tw-dark:text-white tw-dark:focus:ring-blue-500 tw-dark:focus:border-blue-500 tw-block tw-w-full tw-rounded-lg tw-border tw-p-2.5"
+                    required=""
+                  />
+                </div>
+                <div
+                  class="font-semibold text-sm text-red-600 hover:text-red-500"
+                  *ngIf="
+                    form.controls['password'].invalid &&
+                    form.controls['password'].touched
+                  "
+                >
+                  <div *ngIf="form.controls['password'].errors?.['required']">
+                    Mật khẩu không được để trống!
+                  </div>
+                  <div *ngIf="form.controls['password'].errors?.['minlength']">
+                    Mật khẩu phải gồm ít nhất 4 ký tự
+                  </div>
+                </div>
+                <div>
+                  <label
+                    for="passwordConfirmation"
+                    class="tw-text-gray-900 tw-dark:text-white tw-mb-2 tw-block tw-text-sm tw-font-medium"
+                    >Re-enter your password for confirmation.</label
+                  >
+                  <input
+                    type="password"
+                    name="passwordConfirmation"
+                    formControlName="passwordConfirmation"
+                    id="passwordConfirmation"
+                    placeholder="••••••••"
+                    class="tw-bg-gray-50 tw-border-gray-300 tw-text-gray-900 tw-sm:text-sm tw-focus:ring-primary-600 tw-focus:border-primary-600 tw-dark:bg-gray-700 tw-dark:border-gray-600 tw-dark:placeholder-gray-400 tw-dark:text-white tw-dark:focus:ring-blue-500 tw-dark:focus:border-blue-500 tw-block tw-w-full tw-rounded-lg tw-border tw-p-2.5"
+                    required=""
+                  />
+                </div>
+                <div
+                  class="font-semibold text-sm text-red-600 hover:text-red-500"
+                  *ngIf="
+                    form.controls['passwordConfirmation'].invalid &&
+                    form.controls['passwordConfirmation'].touched
+                  "
+                >
+                  <div
+                    *ngIf="
+                      form.controls['passwordConfirmation'].errors?.['required']
+                    "
+                  >
+                    Vui lòng xác nhận lại mật khẩu!
+                  </div>
+
+                  <div *ngIf="form.errors?.['passwordsNotMatch']">
+                    Mật khẩu và xác nhận mật khẩu không khớp!
+                  </div>
+                </div>
+
+                <button
+                  pButton
+                  pRipple
+                  [disabled]="
+                    form.invalid &&
+                    (form.controls['password'].touched ||
+                      form.controls['email'].touched ||
+                      form.controls['passwordConfirmation'].touched)
+                  "
+                  type="submit"
+                  label="Sign up"
+                  class="p-button-secondary dshadow-2 tw-w-full"
+                ></button>
+                <p
+                  class="tw-text-gray-500 tw-dark:text-gray-400 tw-text-sm tw-font-light"
+                >
+                  Already have an account?
+                  <a
+                    [routerLink]="['/signup']"
+                    class="tw-text-primary-600 tw-hover:underline tw-dark:text-primary-500 tw-font-medium"
+                    >Sign in</a
+                  >
+                  or
+                  <a
+                    href="#"
+                    class="tw-text-primary-600 tw-hover:underline tw-dark:text-primary-500 tw-text-sm tw-font-medium"
+                    >Forgot password?</a
+                  >
+                </p>
+              </form>
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+

@@ -1,0 +1,600 @@
+<app-header />
+
+<div class="flex justify-content-start mb-4">
+  <p-breadcrumb
+    styleClass="border-0 bg-transparent"
+    class="max-w-full"
+    [model]="breadcrumb"
+    [home]="home"
+  ></p-breadcrumb>
+</div>
+
+<div class="grid grid-nogutter border-round shadow-2 surface-section text-800">
+  @if (!loaded) {
+    <div class="col-12 md:col-6 p-6">
+      <p-skeleton height="40px" styleClass="mb-2"></p-skeleton>
+      <p-skeleton width="40px" styleClass="mb-2"></p-skeleton>
+      <p-skeleton width="240px" height="80px" styleClass="mb-2"></p-skeleton>
+      <p-skeleton width="100%" height="21rem"></p-skeleton>
+    </div>
+  } @else if (loaded) {
+    <div class="grid tw-p-8">
+      <div class="col-12 lg:col-6 xl:col-3">
+        <div class="card mb-0">
+          <div class="flex justify-content-between mb-3">
+            <div>
+              <span class="block text-500 font-medium mb-3">Orders</span>
+              <div class="text-900 font-medium text-xl">
+                {{ ordersOverview }} order
+              </div>
+            </div>
+            <div
+              class="flex align-items-center justify-content-center bg-blue-100 border-round"
+              style="width: 2.5rem; height: 2.5rem"
+            >
+              <i class="pi pi-shopping-cart text-blue-500 text-xl"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 lg:col-6 xl:col-3">
+        <div class="card mb-0">
+          <div class="flex justify-content-between mb-3">
+            <div>
+              <span class="block text-500 font-medium mb-3">Revenue</span>
+              <div class="text-900 font-medium text-xl">$2.100</div>
+            </div>
+            <div
+              class="flex align-items-center justify-content-center bg-orange-100 border-round"
+              style="width: 2.5rem; height: 2.5rem"
+            >
+              <i class="pi pi-map-marker text-orange-500 text-xl"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 lg:col-6 xl:col-3">
+        <div class="card mb-0">
+          <div class="flex justify-content-between mb-3">
+            <div>
+              <span class="block text-500 font-medium mb-3">Customers</span>
+              <div class="text-900 font-medium text-xl">
+                {{ usersOverview }} customer
+              </div>
+            </div>
+            <div
+              class="flex align-items-center justify-content-center bg-cyan-100 border-round"
+              style="width: 2.5rem; height: 2.5rem"
+            >
+              <i class="pi pi-inbox text-cyan-500 text-xl"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 lg:col-6 xl:col-3">
+        <div class="card mb-0">
+          <div class="flex justify-content-between mb-3">
+            <div>
+              <span class="block text-500 font-medium mb-3">Products</span>
+              <div class="text-900 font-medium text-xl">
+                {{ productsOverview }} Product
+              </div>
+            </div>
+            <div
+              class="flex align-items-center justify-content-center bg-purple-100 border-round"
+              style="width: 2.5rem; height: 2.5rem"
+            >
+              <i class="pi pi-database text-purple-500 text-xl"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 xl:col-6">
+        <div class="card">
+          <h5 class="block text-3xl font-bold tw-mb-4">Sales Overview</h5>
+          <p-chart
+            type="line"
+            [data]="chartData"
+            [options]="chartOptions"
+          ></p-chart>
+        </div>
+      </div>
+      <div class="col-12 xl:col-6">
+        <div class="card tw-h-full">
+          <div class="flex justify-content-between align-items-center mb-5">
+            <h5 class="block text-3xl font-bold tw-mb-4">
+              Best Selling Products
+            </h5>
+            <div>
+              <button
+                pButton
+                type="button"
+                icon="pi pi-ellipsis-v"
+                pRipple
+                (click)="menu.toggle($event)"
+                class="p-element p-button-rounded p-button-text p-button-plain p-button p-component p-button-icon-only"
+              ></button
+              ><p-menu #menu [model]="smallMenu" [popup]="true"></p-menu>
+            </div>
+          </div>
+          <ul class="list-none p-0 m-0">
+            <li
+              class="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4"
+            >
+              <div>
+                <span class="text-900 font-medium mr-2 mb-1 md:mb-0"
+                  >Space T-Shirt</span
+                >
+                <div class="mt-1 text-600">Clothing</div>
+              </div>
+              <div class="mt-2 md:mt-0 flex align-items-center">
+                <div
+                  class="surface-300 border-round overflow-hidden w-10rem lg:w-6rem"
+                  style="height: 8px"
+                >
+                  <div class="bg-orange-500 h-full" style="width: 50%"></div>
+                </div>
+                <span class="text-orange-500 ml-3 font-medium">%50</span>
+              </div>
+            </li>
+            <li
+              class="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4"
+            >
+              <div>
+                <span class="text-900 font-medium mr-2 mb-1 md:mb-0"
+                  >Portal Sticker</span
+                >
+                <div class="mt-1 text-600">Accessories</div>
+              </div>
+              <div class="mt-2 md:mt-0 ml-0 md:ml-8 flex align-items-center">
+                <div
+                  class="surface-300 border-round overflow-hidden w-10rem lg:w-6rem"
+                  style="height: 8px"
+                >
+                  <div class="bg-cyan-500 h-full" style="width: 16%"></div>
+                </div>
+                <span class="text-cyan-500 ml-3 font-medium">%16</span>
+              </div>
+            </li>
+            <li
+              class="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4"
+            >
+              <div>
+                <span class="text-900 font-medium mr-2 mb-1 md:mb-0"
+                  >Supernova Sticker</span
+                >
+                <div class="mt-1 text-600">Accessories</div>
+              </div>
+              <div class="mt-2 md:mt-0 ml-0 md:ml-8 flex align-items-center">
+                <div
+                  class="surface-300 border-round overflow-hidden w-10rem lg:w-6rem"
+                  style="height: 8px"
+                >
+                  <div class="bg-pink-500 h-full" style="width: 67%"></div>
+                </div>
+                <span class="text-pink-500 ml-3 font-medium">%67</span>
+              </div>
+            </li>
+            <li
+              class="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4"
+            >
+              <div>
+                <span class="text-900 font-medium mr-2 mb-1 md:mb-0"
+                  >Wonders Notebook</span
+                >
+                <div class="mt-1 text-600">Office</div>
+              </div>
+              <div class="mt-2 md:mt-0 ml-0 md:ml-8 flex align-items-center">
+                <div
+                  class="surface-300 border-round overflow-hidden w-10rem lg:w-6rem"
+                  style="height: 8px"
+                >
+                  <div class="bg-green-500 h-full" style="width: 35%"></div>
+                </div>
+                <span class="text-green-500 ml-3 font-medium">%35</span>
+              </div>
+            </li>
+            <li
+              class="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4"
+            >
+              <div>
+                <span class="text-900 font-medium mr-2 mb-1 md:mb-0"
+                  >Mat Black Case</span
+                >
+                <div class="mt-1 text-600">Accessories</div>
+              </div>
+              <div class="mt-2 md:mt-0 ml-0 md:ml-8 flex align-items-center">
+                <div
+                  class="surface-300 border-round overflow-hidden w-10rem lg:w-6rem"
+                  style="height: 8px"
+                >
+                  <div class="bg-purple-500 h-full" style="width: 75%"></div>
+                </div>
+                <span class="text-purple-500 ml-3 font-medium">%75</span>
+              </div>
+            </li>
+            <li
+              class="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4"
+            >
+              <div>
+                <span class="text-900 font-medium mr-2 mb-1 md:mb-0"
+                  >Robots T-Shirt</span
+                >
+                <div class="mt-1 text-600">Clothing</div>
+              </div>
+              <div class="mt-2 md:mt-0 ml-0 md:ml-8 flex align-items-center">
+                <div
+                  class="surface-300 border-round overflow-hidden w-10rem lg:w-6rem"
+                  style="height: 8px"
+                >
+                  <div class="bg-teal-500 h-full" style="width: 40%"></div>
+                </div>
+                <span class="text-teal-500 ml-3 font-medium">%40</span>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-12 xl:col-12">
+        <div class="card">
+          <h5 class="flex block text-3xl font-bold tw-mb-4 tw-justify-between">
+            Orders
+          </h5>
+          <p-table
+            [value]="orders"
+            dataKey="id"
+            editMode="row"
+            [tableStyle]="{ 'min-width': '50rem' }"
+            [paginator]="true"
+            [rows]="5"
+            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+            [rowsPerPageOptions]="[5, 10, 20]"
+          >
+            <ng-template pTemplate="header">
+              <tr>
+                <th pSortableColumn="id" style="width: 12%">
+                  Id <p-sortIcon field="id"></p-sortIcon>
+                </th>
+                <th pSortableColumn="userId" style="width: 12%">
+                  User <p-sortIcon field="userId"></p-sortIcon>
+                </th>
+                <th pSortableColumn="address" style="width: 12%">
+                  Address <p-sortIcon field="address"></p-sortIcon>
+                </th>
+                <th pSortableColumn="status" style="width: 12%">
+                  Status <p-sortIcon field="status"></p-sortIcon>
+                </th>
+                <th pSortableColumn="createdAt" style="width: 12%">
+                  Date created <p-sortIcon field="createdAt"></p-sortIcon>
+                </th>
+                <th pSortableColumn="deliveryDate" style="width: 12%">
+                  Delivery date <p-sortIcon field="deliveryDate"></p-sortIcon>
+                </th>
+                <th pSortableColumn="total" style="width: 12%">
+                  Total <p-sortIcon field="total"></p-sortIcon>
+                </th>
+
+                <th pSortableColumn="totalQuantity" style="width: 12%">
+                  Quantity <p-sortIcon field="totalQuantity"></p-sortIcon>
+                </th>
+              </tr>
+            </ng-template>
+            <ng-template
+              pTemplate="body"
+              let-order
+              let-editing="editing"
+              let-ri="rowIndex"
+            >
+              <tr [pEditableRow]="orders">
+                <td>
+                  {{ order.id }}
+                </td>
+                <td>
+                  {{ order.userId }}
+                </td>
+                <td>{{ order.address }}</td>
+                <td>
+                  <p-cellEditor>
+                    <ng-template pTemplate="input">
+                      <p-dropdown
+                        [options]="statuses"
+                        appendTo="body"
+                        [(ngModel)]="order.status"
+                        [style]="{ width: '100%' }"
+                      ></p-dropdown>
+                    </ng-template>
+                    <ng-template pTemplate="output">
+                      <p-tag
+                        class="tw-flex tw-w-full tw-items-center tw-rounded-lg"
+                        [value]="order.status"
+                        [severity]="getOrderSeverity(order.status)"
+                      ></p-tag>
+                    </ng-template>
+                  </p-cellEditor>
+                </td>
+                <td>
+                  {{ order.createdAt | date: 'dd/MM/yyyy' }}
+                </td>
+                <td>
+                  {{ order.deliveryDate | date: 'dd/MM/yyyy' }}
+                </td>
+                <td>
+                  {{ order.total | currency: 'VND' }}
+                </td>
+                <td>
+                  {{ order.totalQuantity }}
+                </td>
+                <td>
+                  <div
+                    class="flex align-items-center justify-content-center gap-2"
+                  >
+                    <button
+                      *ngIf="!editing"
+                      pButton
+                      pRipple
+                      type="button"
+                      pInitEditableRow
+                      icon="pi pi-pencil"
+                      (click)="onRowEditInit(order)"
+                      class="p-button-rounded p-button-text"
+                    ></button>
+                    <button
+                      *ngIf="editing"
+                      pButton
+                      pRipple
+                      type="button"
+                      pSaveEditableRow
+                      icon="pi pi-check"
+                      (click)="onRowEditSave(order)"
+                      class="p-button-rounded p-button-text p-button-success mr-2"
+                    ></button>
+                    <button
+                      *ngIf="editing"
+                      pButton
+                      pRipple
+                      type="button"
+                      pCancelEditableRow
+                      icon="pi pi-times"
+                      (click)="onRowEditCancel(order, ri)"
+                      class="p-button-rounded p-button-text p-button-danger"
+                    ></button>
+                  </div>
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+      <div class="col-12 xl:col-12">
+        <div class="card">
+          <h5 class="flex block text-3xl font-bold tw-mb-4 tw-justify-between">
+            Products
+            <button
+              pButton
+              type="button"
+              icon="pi pi-plus"
+              label="Add New Product"
+              [routerLink]="['/admin/new-product']"
+              class="p-button-rounded p-button-text"
+            ></button>
+          </h5>
+          <p-table
+            [value]="products"
+            dataKey="id"
+            editMode="row"
+            [tableStyle]="{ 'min-width': '50rem' }"
+            [paginator]="true"
+            [rows]="5"
+            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+            [rowsPerPageOptions]="[5, 10, 20]"
+          >
+            <ng-template pTemplate="header">
+              <tr>
+                <th pSortableColumn="code" style="width: 20%">
+                  Code <p-sortIcon field="code"></p-sortIcon>
+                </th>
+                <th style="width: 20%">Image</th>
+                <th pSortableColumn="name" style="width: 20%">
+                  Name <p-sortIcon field="name"></p-sortIcon>
+                </th>
+                <th pSortableColumn="category" style="width: 20%">
+                  Brand <p-sortIcon field="category"></p-sortIcon>
+                </th>
+                <th pSortableColumn="category" style="width: 20%">
+                  Category <p-sortIcon field="category"></p-sortIcon>
+                </th>
+                <th pSortableColumn="quantity" style="width: 20%">
+                  Quantity <p-sortIcon field="quantity"></p-sortIcon>
+                </th>
+                <th pSortableColumn="price" style="width: 20%">
+                  Price <p-sortIcon field="price"></p-sortIcon>
+                </th>
+                <th style="width: 20%">Action</th>
+              </tr>
+            </ng-template>
+            <ng-template
+              pTemplate="body"
+              let-product
+              let-editing="editing"
+              let-ri="rowIndex"
+            >
+              <tr [pEditableRow]="product">
+                <td>
+                  <p-cellEditor>
+                    <ng-template pTemplate="input">
+                      <input
+                        pInputText
+                        type="text"
+                        [(ngModel)]="product.code"
+                      />
+                    </ng-template>
+                    <ng-template pTemplate="output">
+                      {{ product.code }}
+                    </ng-template>
+                  </p-cellEditor>
+                </td>
+                <td>
+                  <p-cellEditor>
+                    <ng-template pTemplate="input">
+                      <form enctype="multipart/form-data" #imageForm>
+                        <img
+                          id="avatarPreview"
+                          class="tw-xxl:mb-0 tw-md:mb-4 tw-border-white tw-size-[28rem] tw-max-w-full tw-rounded-lg tw-object-cover tw-shadow-lg"
+                          [src]="product.image[0]"
+                          [alt]="product.name"
+                          width="100"
+                          class="shadow-4"
+                        />
+                        <input
+                          id="avatarUpload"
+                          type="file"
+                          class="tw-hidden"
+                          name="photo"
+                          accept="image/png,image/jpeg,image/heic,image/gif,image/webp"
+                        />
+                      </form>
+                    </ng-template>
+                    <ng-template pTemplate="output">
+                      <label for="avatarUpload" class="cursor-pointer">
+                        <img
+                          id="avatarPreview"
+                          class="tw-xxl:mb-0 tw-md:mb-4 tw-border-white tw-size-[28rem] tw-max-w-full tw-rounded-lg tw-object-cover tw-shadow-lg"
+                          [src]="product.image[0]"
+                          [alt]="product.name"
+                          width="100"
+                          class="shadow-4"
+                        />
+                      </label>
+                    </ng-template>
+                  </p-cellEditor>
+                </td>
+                <td>
+                  <p-cellEditor>
+                    <ng-template pTemplate="input">
+                      <input
+                        pInputText
+                        type="text"
+                        [(ngModel)]="product.name"
+                        required
+                      />
+                    </ng-template>
+                    <ng-template pTemplate="output">
+                      {{ product.name }}
+                    </ng-template>
+                  </p-cellEditor>
+                </td>
+                <td>
+                  <p-cellEditor>
+                    <ng-template pTemplate="input">
+                      {{ product.brand.name }}
+                    </ng-template>
+                    <ng-template pTemplate="output">
+                      {{ product.brand.name }}
+                    </ng-template>
+                  </p-cellEditor>
+                </td>
+                <td>
+                  <p-cellEditor>
+                    <ng-template pTemplate="input">
+                      <p-dropdown
+                        [options]="Category"
+                        appendTo="body"
+                        [(ngModel)]="product.category"
+                        [style]="{ width: '100%' }"
+                      ></p-dropdown>
+                    </ng-template>
+                    <ng-template pTemplate="output">
+                      {{ product.category }}
+                    </ng-template>
+                  </p-cellEditor>
+                </td>
+
+                <td>
+                  <p-cellEditor>
+                    <ng-template pTemplate="input">
+                      <input
+                        pInputText
+                        type="number"
+                        [(ngModel)]="product.quantity"
+                      />
+                    </ng-template>
+                    <ng-template pTemplate="output">
+                      <!-- {{ product.inventoryStatus }} -->
+                      <p-tag
+                        class="tw-flex tw-w-full tw-items-center tw-rounded-lg"
+                        [value]="product.quantity"
+                        [severity]="getSeverity(product.quantity).severity"
+                      ></p-tag>
+                    </ng-template>
+                  </p-cellEditor>
+                </td>
+                <td>
+                  <p-cellEditor>
+                    <ng-template pTemplate="input">
+                      <input
+                        pInputText
+                        type="number"
+                        [(ngModel)]="product.price"
+                      />
+                    </ng-template>
+                    <ng-template pTemplate="output">
+                      {{ product.price | currency: 'USD' }}
+                    </ng-template>
+                  </p-cellEditor>
+                </td>
+                <td>
+                  <div
+                    class="flex align-items-center justify-content-center gap-2"
+                  >
+                    <button
+                      *ngIf="!editing"
+                      pButton
+                      pRipple
+                      type="button"
+                      pInitEditableRow
+                      icon="pi pi-trash"
+                      (click)="deleteSelectedProducts(product)"
+                      class="p-button-rounded p-button-text"
+                      [disabled]="!product || !product.length"
+                    ></button>
+                    <button
+                      *ngIf="!editing"
+                      pButton
+                      pRipple
+                      type="button"
+                      pInitEditableRow
+                      icon="pi pi-pencil"
+                      (click)="onRowEditInit(product)"
+                      class="p-button-rounded p-button-text"
+                    ></button>
+                    <button
+                      *ngIf="editing"
+                      pButton
+                      pRipple
+                      type="button"
+                      pSaveEditableRow
+                      icon="pi pi-check"
+                      (click)="onRowEditSave(product)"
+                      class="p-button-rounded p-button-text p-button-success mr-2"
+                    ></button>
+                    <button
+                      *ngIf="editing"
+                      pButton
+                      pRipple
+                      type="button"
+                      pCancelEditableRow
+                      icon="pi pi-times"
+                      (click)="onRowEditCancel(product, ri)"
+                      class="p-button-rounded p-button-text p-button-danger"
+                    ></button>
+                  </div>
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+    </div>
+  }
+</div>
+

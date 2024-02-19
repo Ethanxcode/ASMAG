@@ -1,0 +1,161 @@
+<p>cart-checkout works!</p>
+<app-header />
+<div class="tw-flex tw-items-center tw-justify-center tw-py-5">
+  <div class="tw-w-1/2">
+    <p-steps [model]="steps" [readonly]="true"></p-steps>
+  </div>
+</div>
+
+<div
+  class="tw-flex tw-w-full tw-flex-col tw-justify-center tw-gap-6 md:tw-flex-row"
+>
+  <div class="card tw-w-full">
+    <div>
+      <p-table
+        *ngIf="cartItems$ | async as item"
+        [value]="item"
+        [tableStyle]="{ 'min-width': '920px' }"
+      >
+        <ng-template pTemplate="header">
+          <tr
+            class="tw-truncate tw-text-sm tw-tracking-[0.42px] *:tw-uppercase"
+          >
+            <th>Product</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Subtotal</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-product>
+          <tr>
+            <td class="tw-flex tw-flex-row tw-items-center tw-gap-5">
+              <img
+                src="{{ product.image }}"
+                alt="product"
+                class="tw-h-[102px] tw-w-[144px] tw-object-cover"
+              />
+              <span>{{ product.name }}</span>
+            </td>
+
+            <td>{{ product.price | currency: 'USD' }}</td>
+            <!-- <td class="tw-flex tw-flex-row tw-items-center tw-gap-5">
+              <span>{{ product.size.size }}</span>
+            </td> -->
+            <td>
+              {{ product.quantity }}
+            </td>
+            <td>
+              {{
+                this.handleCaculateSubtotalProduct(product) | currency: 'USD'
+              }}
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+  <div class="gap-2 tw-flex tw-w-3/12 tw-flex-col">
+    <div class="card tw-mb-0 tw-w-[382px] tw-rounded-lg tw-border-[1px]">
+      <div
+        class="tw-flex tw-w-full tw-flex-row tw-items-center tw-justify-between"
+      >
+        <h1 class="opacity-90 tw-mb-2 tw-text-2xl tw-font-bold">Delivery to</h1>
+        <!-- <span>{{ product.price | currency: 'USD' }}</span> -->
+      </div>
+      @if (user) {
+        <div
+          class="tw-mb-1 tw-flex tw-items-center tw-truncate tw-text-wrap tw-text-lg tw-font-bold"
+        >
+          {{ user.username }} <i class="divider"></i>
+          {{ user.phone !== null ? user.phone : '' }}
+        </div>
+
+        <div
+          class="opacity-60 tw-truncate tw-text-wrap tw-text-lg tw-font-medium"
+        >
+          <span class="address__type address__type--home tw-text-capitalize"
+            >Nhà</span
+          >
+          {{ user.address !== null ? user.address : '' }}
+        </div>
+      }
+    </div>
+    <div
+      class="card tw-w-[382px] tw-rounded-lg tw-border-[1px] tw-border-background-300"
+    >
+      <div class="tw-pb-5">
+        <div
+          class="tw-flex tw-w-full tw-flex-row tw-items-center tw-justify-between"
+        >
+          <h1 class="opacity-90 tw-text-2xl tw-font-bold">Delivered Order</h1>
+          <!-- <span>{{ product.price | currency: 'USD' }}</span> -->
+        </div>
+        <h2 class="opacity-60 tw-truncate tw-text-lg tw-font-medium">
+          {{ cartTotalQuantity$ | async }} product.
+        </h2>
+      </div>
+      <div
+        class="flex-column gap-2 tw-flex tw-border-b-[1px] tw-border-t-[1px] tw-border-background-300 tw-py-5"
+      >
+        <div class="tw-flex tw-w-full tw-flex-row tw-justify-between">
+          <h2 class="opacity-80 tw-truncate tw-text-lg tw-font-medium">
+            Subtotal
+          </h2>
+          <span class="tw-truncate tw-text-lg tw-font-normal">{{
+            calculateSubtotal$ | async | currency: 'USD'
+          }}</span>
+        </div>
+        <div class="tw-flex tw-w-full tw-flex-row tw-justify-between">
+          <h2 class="opacity-80 tw-truncate tw-text-lg tw-font-medium">
+            Shipping
+          </h2>
+          <span class="tw-truncate tw-text-lg tw-font-normal">
+            <span class="tw-truncate tw-text-lg tw-font-normal">{{
+              shipping && (cartTotalQuantity$ | async) !== 0
+                ? (shipping | currency: 'USD')
+                : (0 | currency: 'USD')
+            }}</span>
+          </span>
+        </div>
+      </div>
+      <div
+        class="tw-flex tw-w-full tw-flex-row tw-justify-between tw-pt-5 tw-text-lg tw-font-semibold"
+      >
+        <h2 class="tw-truncate tw-text-lg tw-font-bold">Total</h2>
+        <span class="tw-text-2xl tw-font-bold tw-text-tiki-red">{{
+          calculateTotal$ | async | currency: 'USD'
+        }}</span>
+      </div>
+      <span
+        class="opacity-70 tw-float-end tw-w-2/3 tw-items-center tw-pb-2 tw-text-end tw-text-base tw-font-normal"
+        >(This price includes VAT, packaging fees, shipping fees, and other
+        incurred charges.)</span
+      >
+      <button
+        pButton
+        pRipple
+        [disabled]="user === null"
+        label="Proceed to order"
+        (click)="handleSubmitOrder()"
+        type="button"
+        class="mr-3 p-button-danger shadow-2 tw-w-full"
+      ></button>
+    </div>
+  </div>
+</div>
+
+<div class="card tw-my-4 tw-w-full">
+  <h2 class="tw-my-4 tw-text-2xl tw-font-bold">Chọn hình thức thanh toán</h2>
+  <div class="flex flex-column gap-3">
+    <div *ngFor="let item of payments" class="field-checkbox">
+      <p-radioButton
+        [inputId]="item.key"
+        name="payment"
+        [value]="item"
+        [(ngModel)]="selectedPayments"
+      ></p-radioButton>
+      <label [for]="item.key" class="ml-2">{{ item.name }}</label>
+    </div>
+  </div>
+</div>
+
