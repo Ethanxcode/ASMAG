@@ -59,18 +59,26 @@ export class HomeComponent implements OnInit {
     itemsPerPage: number,
     category: string
   ) {
-    const filtered = this.products.filter(product =>
-      product.name.toLowerCase().includes(term.toLowerCase())
+    if (!this.products) {
+      console.error('Products data is not available.');
+      return;
+    }
+
+    const filtered = this.products.filter(
+      product =>
+        product.name && product.name.toLowerCase().includes(term.toLowerCase())
     );
+
     this.filteredProducts =
       category !== ''
         ? filtered.filter(
             product =>
+              product.brand.narrowCategoryId &&
               product.brand.narrowCategoryId.toLowerCase().trim() ===
-              category.trim()
+                category.trim()
           )
         : filtered;
-    console.log(category);
+
     this.filteredProducts = this.filteredProducts.slice(
       (page - 1) * itemsPerPage,
       page * itemsPerPage
